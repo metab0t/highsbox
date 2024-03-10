@@ -1,6 +1,6 @@
-# Tccbox
+# highsbox
 
-[![](https://img.shields.io/pypi/v/highsbox.svg?color=brightgreen)](https://pypi.org/pypi/highs/)
+[![](https://img.shields.io/pypi/v/highsbox.svg?color=brightgreen)](https://pypi.org/pypi/highsbox/)
 
 This is the python wheel distribution for binaries of [HiGHS](https://github.com/ERGO-Code/HiGHS) optimizer.
 
