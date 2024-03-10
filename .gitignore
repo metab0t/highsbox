@@ -1,0 +1,14 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+
+.idea/
+.vscode/
+
+HiGHS/

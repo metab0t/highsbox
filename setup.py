@@ -1,0 +1,126 @@
+from setuptools import setup
+import os, datetime, subprocess
+import shutil
+
+from wheel.bdist_wheel import bdist_wheel as _bdist_wheel
+
+
+class genericpy_bdist_wheel(_bdist_wheel):
+    def finalize_options(self):
+        _bdist_wheel.finalize_options(self)
+        self.root_is_pure = False
+
+    def get_tag(self):
+        python, abi, plat = _bdist_wheel.get_tag(self)
+        python, abi = "py3", "none"
+        if os.environ.get("CIBUILDWHEEL", "0") == "1" and plat == "linux_x86_64":
+            # pypi does not allow linux_x86_64 wheels to be uploaded
+            plat = "manylinux2014_x86_64"
+        return python, abi, plat
+
+
+cmdclass = {"bdist_wheel": genericpy_bdist_wheel}
+
+
+# cd to `HiGHS` directory and build highs
+# run:
+#   mkdir build
+#   cmake -S. -Bbuild -DFAST_BUILD=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=highs_dist
+#   cmake --build build --config Release --parallel 6
+#   cmake --install build
+# then package highs_dist directory
+def build_highs():
+    this_directory = os.path.abspath(os.path.dirname(__file__))
+    highs_dir = os.path.join(this_directory, "HiGHS")
+
+    # if highs dir does not exist, clone it
+    if not os.path.exists(highs_dir):
+        subprocess.run(
+            [
+                "git",
+                "clone",
+                "--depth",
+                "1",
+                "--branch",
+                "v1.7.0",
+                "https://github.com/ERGO-Code/HiGHS.git",
+            ],
+            cwd=this_directory,
+            check=True,
+        )
+
+    # build highs
+    build_dir = os.path.join(highs_dir, "build")
+    if not os.path.exists(build_dir):
+        os.makedirs(build_dir)
+    subprocess.run(
+        [
+            "cmake",
+            "-S.",
+            "-Bbuild",
+            "-DFAST_BUILD=ON",
+            "-DBUILD_SHARED_LIBS=ON",
+            "-DCMAKE_BUILD_TYPE=Release",
+            "-DCMAKE_INSTALL_PREFIX=highs_dist",
+        ],
+        cwd=highs_dir,
+        check=True,
+    )
+    subprocess.run(
+        ["cmake", "--build", "build", "--config", "Release", "--parallel", "6"],
+        cwd=highs_dir,
+        check=True,
+    )
+    subprocess.run(
+        ["cmake", "--install", "build"],
+        cwd=highs_dir,
+        check=True,
+    )
+
+
+build_highs()
+
+this_directory = os.path.abspath(os.path.dirname(__file__))
+
+long_description = """
+highsbox is a python package that packs binary of [HiGHS](https://github.com/ERGO-Code/HiGHS)
+"""
+
+from tempfile import TemporaryDirectory
+
+with TemporaryDirectory() as temp_dir:
+    base_dir = os.path.abspath(os.path.dirname(__file__))
+    highs_dir = os.path.join(this_directory, "highs")
+
+    dist_name = "highs_dist"
+    shutil.copytree(
+        os.path.join(highs_dir, dist_name),
+        os.path.join(temp_dir, dist_name),
+        dirs_exist_ok=True,
+    )
+
+    for fname in ["__init__.py", "__main__.py"]:
+        shutil.copy2(
+            os.path.join(base_dir, "src", fname), os.path.join(temp_dir, fname)
+        )
+
+    setup(
+        name="highsbox",
+        version="1.7.0",
+        cmdclass=cmdclass,
+        author="Yue Yang",
+        author_email="metab0t@outlook.com",
+        url="https://github.com/metab0t/highsbox",
+        description="highsbox: binary distribution of HiGHS optimizer",
+        long_description=long_description,
+        long_description_content_type="text/markdown",
+        license="MIT",
+        packages=["highsbox"],
+        zip_safe=False,
+        package_dir={"highsbox": temp_dir},
+        package_data={
+            "highsbox": [
+                "highs_dist/**",
+            ]
+        },
+    )
