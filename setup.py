@@ -101,6 +101,12 @@ def patch_rpath(executable_path: str):
             ],
             check=True,
         )
+        # show the altered rpath
+        p = subprocess.run(
+            ["otool", "-l", executable_path],
+            check=True, capture_output=True, text=True,
+        )
+        print(f"Output of otool:\n{p.stdout}")
     elif platform.system() == "Linux":
         subprocess.run(
             [
@@ -111,6 +117,12 @@ def patch_rpath(executable_path: str):
             ],
             check=True,
         )
+        # show the altered rpath
+        p = subprocess.run(
+            ["patchelf", "--print-rpath", executable_path],
+            check=True, capture_output=True, text=True,
+        )
+        print(f"Output of patchelf:\n{p.stdout}")
 
 
 with TemporaryDirectory() as temp_dir:
