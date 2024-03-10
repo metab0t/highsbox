@@ -14,7 +14,7 @@ The current version is 1.7.0 built for the following platforms:
 pip install highsbox
 ```
 
-After installation, you can use `python -m highs` to invoke the `highs` command-line tool.
+After installation, you can use `python -m highsbox` to invoke the `highs` command-line tool.
 
 ```
 >>> python -m highsbox --version
