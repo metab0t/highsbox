@@ -104,7 +104,9 @@ def patch_rpath(executable_path: str):
         # show the altered rpath
         p = subprocess.run(
             ["otool", "-l", executable_path],
-            check=True, capture_output=True, text=True,
+            check=True,
+            capture_output=True,
+            text=True,
         )
         print(f"Output of otool:\n{p.stdout}")
     elif platform.system() == "Linux":
@@ -120,7 +122,9 @@ def patch_rpath(executable_path: str):
         # show the altered rpath
         p = subprocess.run(
             ["patchelf", "--print-rpath", executable_path],
-            check=True, capture_output=True, text=True,
+            check=True,
+            capture_output=True,
+            text=True,
         )
         print(f"Output of patchelf:\n{p.stdout}")
 
@@ -135,6 +139,11 @@ with TemporaryDirectory() as temp_dir:
         os.path.join(temp_dir, dist_name),
         dirs_exist_ok=True,
     )
+
+    # In manylinux container, the lib directory will be set as lib64, we need to change it to lib
+    lib64dir = os.path.join(temp_dir, dist_name, "lib64")
+    if os.path.exists(lib64dir):
+        shutil.move(lib64dir, os.path.join(temp_dir, dist_name, "lib"))
 
     # patch rpath
     if os.name != "nt":
