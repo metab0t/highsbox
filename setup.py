@@ -1,5 +1,5 @@
 from setuptools import setup
-import os, datetime, subprocess
+import os, platform, subprocess
 import shutil
 
 from wheel.bdist_wheel import bdist_wheel as _bdist_wheel
@@ -80,6 +80,7 @@ def build_highs():
 
 build_highs()
 
+
 this_directory = os.path.abspath(os.path.dirname(__file__))
 
 long_description = """
@@ -87,6 +88,30 @@ highsbox is a python package that packs binary of [HiGHS](https://github.com/ERG
 """
 
 from tempfile import TemporaryDirectory
+
+
+def patch_rpath(executable_path: str):
+    if platform.system() == "Darwin":
+        subprocess.run(
+            [
+                "install_name_tool",
+                "-add_rpath",
+                "@loader_path/../lib",
+                executable_path,
+            ],
+            check=True,
+        )
+    elif platform.system() == "Linux":
+        subprocess.run(
+            [
+                "patchelf",
+                "--set-rpath",
+                "$ORIGIN/../lib",
+                executable_path,
+            ],
+            check=True,
+        )
+
 
 with TemporaryDirectory() as temp_dir:
     base_dir = os.path.abspath(os.path.dirname(__file__))
@@ -98,6 +123,11 @@ with TemporaryDirectory() as temp_dir:
         os.path.join(temp_dir, dist_name),
         dirs_exist_ok=True,
     )
+
+    # patch rpath
+    if os.name != "nt":
+        executable_path = os.path.join(temp_dir, dist_name, "bin", "highs")
+        patch_rpath(executable_path)
 
     for fname in ["__init__.py", "__main__.py"]:
         shutil.copy2(
