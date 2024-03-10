@@ -90,7 +90,7 @@ from tempfile import TemporaryDirectory
 
 with TemporaryDirectory() as temp_dir:
     base_dir = os.path.abspath(os.path.dirname(__file__))
-    highs_dir = os.path.join(this_directory, "highs")
+    highs_dir = os.path.join(this_directory, "HiGHS")
 
     dist_name = "highs_dist"
     shutil.copytree(
