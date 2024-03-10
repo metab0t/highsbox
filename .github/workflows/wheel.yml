@@ -33,6 +33,8 @@ jobs:
           CIBW_ARCHS: "native"
           # use manylinux2014
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
+          CIBW_BEFORE_ALL_LINUX: >
+            pip install patchelf
           CIBW_REPAIR_WHEEL_COMMAND_LINUX: ""
           CIBW_REPAIR_WHEEL_COMMAND_MACOS: ""
           CIBW_TEST_COMMAND: "python -m highsbox --version"
