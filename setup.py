@@ -146,9 +146,9 @@ with TemporaryDirectory() as temp_dir:
         shutil.move(lib64dir, os.path.join(temp_dir, dist_name, "lib"))
 
     # patch rpath
-    if os.name != "nt":
-        executable_path = os.path.join(temp_dir, dist_name, "bin", "highs")
-        patch_rpath(executable_path)
+    # if os.name != "nt":
+    #    executable_path = os.path.join(temp_dir, dist_name, "bin", "highs")
+    #    patch_rpath(executable_path)
 
     for fname in ["__init__.py", "__main__.py"]:
         shutil.copy2(
