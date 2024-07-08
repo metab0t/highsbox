@@ -4,7 +4,7 @@
 
 This is the python wheel distribution for binaries of [HiGHS](https://github.com/ERGO-Code/HiGHS) optimizer.
 
-The current version is 1.7.1 built for the following platforms:
+The current version is 1.7.2 built for the following platforms:
 - Windows (x86_64)
 - Linux (x86_64)
 - MacOS (x86_64)
