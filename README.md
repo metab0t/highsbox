@@ -6,7 +6,7 @@ This is the python wheel distribution for binaries of [HiGHS](https://github.com
 
 The current version is 1.7.2 built for the following platforms:
 - Windows (x86_64)
-- Linux (x86_64)
+- Linux (x86_64, aarch64)
 - MacOS (x86_64)
 - MacOS (arm64)
 
