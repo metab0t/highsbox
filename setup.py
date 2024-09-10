@@ -13,9 +13,12 @@ class genericpy_bdist_wheel(_bdist_wheel):
     def get_tag(self):
         python, abi, plat = _bdist_wheel.get_tag(self)
         python, abi = "py3", "none"
-        if os.environ.get("CIBUILDWHEEL", "0") == "1" and plat == "linux_x86_64":
+        if os.environ.get("CIBUILDWHEEL", "0") == "1":
             # pypi does not allow linux_x86_64 wheels to be uploaded
-            plat = "manylinux2014_x86_64"
+            if plat == "linux_x86_64":
+                plat = "manylinux2014_x86_64"
+            elif plat == "linux_aarch64":
+                plat = "manylinux2014_aarch64"
         return python, abi, plat
 
 
