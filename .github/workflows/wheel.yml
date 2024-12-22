@@ -25,6 +25,8 @@ jobs:
             arch: "x86_64 aarch64"
           - os: windows-latest
             arch: native
+          - os: macos-13
+            arch: native
           - os: macos-14
             arch: native
 
