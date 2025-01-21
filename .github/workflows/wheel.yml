@@ -22,7 +22,9 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            arch: "x86_64 aarch64"
+            arch: native
+          - os: ubuntu-24.04-arm64
+            arch: native
           - os: windows-latest
             arch: native
           - os: macos-13
@@ -32,12 +34,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up QEMU
-        if: matrix.os == 'ubuntu-latest'
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: all
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.22.0
