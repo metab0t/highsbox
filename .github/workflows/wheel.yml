@@ -23,7 +23,7 @@ jobs:
         include:
           - os: ubuntu-latest
             arch: native
-          - os: ubuntu-24.04-arm64
+          - os: ubuntu-24.04-arm
             arch: native
           - os: windows-latest
             arch: native
