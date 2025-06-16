@@ -36,7 +36,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.23.3
+        uses: pypa/cibuildwheel@v3.0.0
         env:
           # Select wheels
           CIBW_BUILD: "cp311-manylinux_x86_64 cp311-manylinux_aarch64 cp311-win_amd64 cp311-macosx_x86_64 cp311-macosx_arm64"
