@@ -28,7 +28,7 @@ cmdclass = {"bdist_wheel": genericpy_bdist_wheel}
 # cd to `HiGHS` directory and build highs
 # run:
 #   mkdir build
-#   cmake -S. -Bbuild -DFAST_BUILD=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=highs_dist
+#   cmake -S. -Bbuild -DFAST_BUILD=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release -DHIPO=ON -DBUILD_OPENBLAS=ON -DCMAKE_INSTALL_PREFIX=highs_dist
 #   cmake --build build --config Release --parallel 6
 #   cmake --install build
 # then package highs_dist directory
@@ -45,7 +45,7 @@ def build_highs():
                 "--depth",
                 "1",
                 "--branch",
-                "v1.12.0",
+                "v1.13.0",
                 "https://github.com/ERGO-Code/HiGHS.git",
             ],
             cwd=this_directory,
@@ -64,6 +64,8 @@ def build_highs():
             "-DFAST_BUILD=ON",
             "-DBUILD_SHARED_LIBS=ON",
             "-DCMAKE_BUILD_TYPE=Release",
+            "-DHIPO=ON",
+            "-DBUILD_OPENBLAS=ON",
             "-DCMAKE_INSTALL_PREFIX=highs_dist",
         ],
         cwd=highs_dir,
@@ -160,7 +162,7 @@ with TemporaryDirectory() as temp_dir:
 
     setup(
         name="highsbox",
-        version="1.12.0",
+        version="1.13.0",
         cmdclass=cmdclass,
         author="Yue Yang",
         author_email="metab0t@outlook.com",
