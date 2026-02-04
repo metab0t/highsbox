@@ -35,5 +35,3 @@ Their paths can be found using the `highsbox` module:
 >>> highsbox.highs_include_dir()
 'D:\\mambaforge\\Lib\\site-packages\\highsbox\\highs_dist\\include\\highs'
 ```
-
-**Note**: The new interior point method solver HiPO included in HiGHS 1.12 and after is currently unavailable in highsbox due to complex third-party dependencies.
