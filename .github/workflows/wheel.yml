@@ -27,7 +27,7 @@ jobs:
             arch: native
           - os: windows-latest
             arch: native
-          - os: macos-13
+          - os: macos-14-large
             arch: native
           - os: macos-14
             arch: native
@@ -39,7 +39,7 @@ jobs:
         uses: pypa/cibuildwheel@v3.3.1
         env:
           # Select wheels
-          CIBW_BUILD: "cp311-manylinux_x86_64 cp311-manylinux_aarch64 cp311-win_amd64 cp311-macosx_x86_64 cp311-macosx_arm64"
+          CIBW_BUILD: "cp313-manylinux_x86_64 cp313-manylinux_aarch64 cp313-win_amd64 cp313-macosx_x86_64 cp313-macosx_arm64"
           CIBW_ARCHS: "${{ matrix.arch }}"
           # use manylinux2014
           CIBW_MANYLINUX_X86_64_IMAGE: "quay.io/pypa/manylinux2014_x86_64"
