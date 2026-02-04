@@ -66,6 +66,7 @@ def build_highs():
             "-DCMAKE_BUILD_TYPE=Release",
             "-DHIPO=ON",
             "-DBUILD_OPENBLAS=ON",
+            "-DCMAKE_PLATFORM_NO_VERSIONED_SONAME=ON",
             "-DCMAKE_INSTALL_PREFIX=highs_dist",
         ],
         cwd=highs_dir,
