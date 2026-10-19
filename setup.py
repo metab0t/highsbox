@@ -45,7 +45,7 @@ def build_highs():
                 "--depth",
                 "1",
                 "--branch",
-                "v1.13.1",
+                "v1.15.1",
                 "https://github.com/ERGO-Code/HiGHS.git",
             ],
             cwd=this_directory,
@@ -163,7 +163,7 @@ with TemporaryDirectory() as temp_dir:
 
     setup(
         name="highsbox",
-        version="1.13.1",
+        version="1.15.1",
         cmdclass=cmdclass,
         author="Yue Yang",
         author_email="metab0t@outlook.com",
