@@ -45,7 +45,7 @@ def build_highs():
                 "--depth",
                 "1",
                 "--branch",
-                "v1.15.1",
+                "v1.16.0",
                 "https://github.com/ERGO-Code/HiGHS.git",
             ],
             cwd=this_directory,
