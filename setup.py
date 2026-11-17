@@ -163,7 +163,7 @@ with TemporaryDirectory() as temp_dir:
 
     setup(
         name="highsbox",
-        version="1.15.1",
+        version="1.16.0",
         cmdclass=cmdclass,
         author="Yue Yang",
         author_email="metab0t@outlook.com",
